@@ -213,6 +213,10 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 				page->vWrap = *str.begin == 'x' ? ATLAS_CLAMPTOEDGE : (*str.begin == 'y' ? ATLAS_REPEAT : ATLAS_REPEAT);
 			}
 
+			if (readTuple(end, tuple) != 2) return abortAtlas(self);
+			page->origWidth = toInt(tuple);
+			page->origHeight = toInt(tuple + 1);
+
 			_AtlasPage_createTexture(page, path);
 			FREE(path);
 		} else {
@@ -230,12 +234,12 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 			region->rotate = equals(&str, "true");
 
 			if (readTuple(end, tuple) != 2) return abortAtlas(self);
-			region->x = toInt(tuple);
-			region->y = toInt(tuple + 1);
+			region->x = toInt(tuple) * page->textureScale;
+			region->y = toInt(tuple + 1) * page->textureScale;
 
 			if (readTuple(end, tuple) != 2) return abortAtlas(self);
-			region->width = toInt(tuple);
-			region->height = toInt(tuple + 1);
+			region->width = toInt(tuple) * page->textureScale;
+			region->height = toInt(tuple + 1) * page->textureScale;
 
 			region->u = region->x / (float)page->width;
 			region->v = region->y / (float)page->height;
@@ -250,29 +254,29 @@ Atlas* Atlas_readAtlas (const char* begin, int length, const char* dir) {
 			if (!(count = readTuple(end, tuple))) return abortAtlas(self);
 			if (count == 4) { /* split is optional */
 				region->splits = MALLOC(int, 4);
-				region->splits[0] = toInt(tuple);
-				region->splits[1] = toInt(tuple + 1);
-				region->splits[2] = toInt(tuple + 2);
-				region->splits[3] = toInt(tuple + 3);
+				region->splits[0] = toInt(tuple) * page->textureScale;
+				region->splits[1] = toInt(tuple + 1) * page->textureScale;
+				region->splits[2] = toInt(tuple + 2) * page->textureScale;
+				region->splits[3] = toInt(tuple + 3) * page->textureScale;
 
 				if (!(count = readTuple(end, tuple))) return abortAtlas(self);
 				if (count == 4) { /* pad is optional, but only present with splits */
 					region->pads = MALLOC(int, 4);
-					region->pads[0] = toInt(tuple);
-					region->pads[1] = toInt(tuple + 1);
-					region->pads[2] = toInt(tuple + 2);
-					region->pads[3] = toInt(tuple + 3);
+					region->pads[0] = toInt(tuple) * page->textureScale;
+					region->pads[1] = toInt(tuple + 1) * page->textureScale;
+					region->pads[2] = toInt(tuple + 2) * page->textureScale;
+					region->pads[3] = toInt(tuple + 3) * page->textureScale;
 
 					if (!readTuple(end, tuple)) return abortAtlas(self);
 				}
 			}
 
-			region->originalWidth = toInt(tuple);
-			region->originalHeight = toInt(tuple + 1);
+			region->originalWidth = toInt(tuple) * page->textureScale;
+			region->originalHeight = toInt(tuple + 1) * page->textureScale;
 
 			readTuple(end, tuple);
-			region->offsetX = toInt(tuple);
-			region->offsetY = toInt(tuple + 1);
+			region->offsetX = toInt(tuple) * page->textureScale;
+			region->offsetY = toInt(tuple + 1) * page->textureScale;
 
 			if (!readValue(end, &str)) return abortAtlas(self);
 			region->index = toInt(&str);

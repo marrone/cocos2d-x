@@ -52,6 +52,9 @@ struct AtlasPage {
 	AtlasFormat format;
 	AtlasFilter minFilter, magFilter;
 	AtlasWrap uWrap, vWrap;
+    int origWidth;
+    int origHeight;
+    float textureScale;
 
 	void* rendererObject;
 	int width, height;
