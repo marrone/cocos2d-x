@@ -24,35 +24,27 @@ public class OuyaBindController
     }
 
 	public static OuyaController getControllerByPlayer(int playerNum) {
-		Log.d("OUYA Controller", "getControllerByPlayer with Player: "+playerNum);
 		OuyaController ouyaController = OuyaController.getControllerByPlayer(playerNum);
-		Log.d("OUYA Controller", "Found Controller: "+ouyaController);
 		return ouyaController;
 	}
 	
 	public static OuyaController getControllerByDeviceId(int deviceId)
 	{
 		OuyaController controller = OuyaController.getControllerByDeviceId(deviceId);
-		Log.d("OUYA Controller", "Got controller: "+controller);
 		return controller;
 	}
 	
 	public static native void onNativeKeyDown(final int pKeyCode, final int deviceId);
 	public static boolean onKeyDown(final int pKeyCode, final KeyEvent pKeyEvent)
 	{
-        Log.d("OUYA Controller", "=========> OuyaBindController on key down");
 		boolean handled = OuyaController.onKeyDown(pKeyCode, pKeyEvent);
-        Log.d("OUYA Controller", "=========> after handled");
 		OuyaBindController.onNativeKeyDown(pKeyCode, pKeyEvent.getDeviceId());
-        Log.d("OUYA Controller", "=========> after onNativeKeyDown");
 		return handled;
 	}
 
 	public static boolean onKeyDownByDeviceId(final int pKeyCode, final int deviceId)
 	{
-        Log.d("OUYA Controller", "=========> OuyaBindController on key down by device id");
 		OuyaBindController.onNativeKeyDown(pKeyCode, deviceId);
-        Log.d("OUYA Controller", "=========> after onNativeKeyDown");
         return true;
 	}
 	
@@ -65,9 +57,7 @@ public class OuyaBindController
 	}
 	public static boolean onKeyUpByDeviceId(final int pKeyCode, final int deviceId)
 	{
-        Log.d("OUYA Controller", "=========> OuyaBindController on key up by device id");
 		OuyaBindController.onNativeKeyUp(pKeyCode, deviceId);
-        Log.d("OUYA Controller", "=========> after onNativeKeyUp");
         return true;
 	}
 	

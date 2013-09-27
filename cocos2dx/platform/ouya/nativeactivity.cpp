@@ -425,16 +425,16 @@ static int32_t handle_key_input(AInputEvent *event)
     if (AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_UP)
     {
 
-                    cocos2d::JniMethodInfo ccxouyaKeyHandler;
-                    if (!cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler,
-                                                                 "com/levire/ouyabind/OuyaBindController",
-                                                                 "onKeyUpByDeviceId",
-                                                                 "(II)Z")) {
-                        LOGI("cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler) FAILED");
-                    }
-                    jboolean ouyaHandled = ccxouyaKeyHandler.env->CallStaticBooleanMethod(ccxouyaKeyHandler.classID,
-                                                            ccxouyaKeyHandler.methodID,
-                                                            (int)AKeyEvent_getKeyCode(event), (int)AInputEvent_getDeviceId(event));
+        cocos2d::JniMethodInfo ccxouyaKeyHandler;
+        if (!cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler,
+                                                     "com/levire/ouyabind/OuyaBindController",
+                                                     "onKeyUpByDeviceId",
+                                                     "(II)Z")) {
+            LOGI("cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler) FAILED");
+        }
+        jboolean ouyaHandled = ccxouyaKeyHandler.env->CallStaticBooleanMethod(ccxouyaKeyHandler.classID,
+                                                ccxouyaKeyHandler.methodID,
+                                                (int)AKeyEvent_getKeyCode(event), (int)AInputEvent_getDeviceId(event));
 
         switch (AKeyEvent_getKeyCode(event))
         {
@@ -455,18 +455,17 @@ static int32_t handle_key_input(AInputEvent *event)
         }
     }
     else if (AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_DOWN) {
-                    cocos2d::JniMethodInfo ccxouyaKeyHandler;
-                    if (!cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler,
-                                                                 "com/levire/ouyabind/OuyaBindController",
-                                                                 "onKeyDownByDeviceId",
-                                                                 "(II)Z")) {
-                        LOGI("cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler) FAILED");
-                    }
-                    jboolean ouyaHandled = ccxouyaKeyHandler.env->CallStaticBooleanMethod(
-                                                            ccxouyaKeyHandler.classID,
-                                                            ccxouyaKeyHandler.methodID,
-                                                            (int)AKeyEvent_getKeyCode(event), (int)AInputEvent_getDeviceId(event));
-
+        cocos2d::JniMethodInfo ccxouyaKeyHandler;
+        if (!cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler,
+                                                     "com/levire/ouyabind/OuyaBindController",
+                                                     "onKeyDownByDeviceId",
+                                                     "(II)Z")) {
+            LOGI("cocos2d::JniHelper::getStaticMethodInfo(ccxouyaKeyHandler) FAILED");
+        }
+        jboolean ouyaHandled = ccxouyaKeyHandler.env->CallStaticBooleanMethod(
+                                                ccxouyaKeyHandler.classID,
+                                                ccxouyaKeyHandler.methodID,
+                                                (int)AKeyEvent_getKeyCode(event), (int)AInputEvent_getDeviceId(event));
     }
     return 0;
 }
